@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticketing App</title>
+    <!-- 부트스트랩 CDN -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- 사용자 정의 스타일 -->
+    <link rel="stylesheet" href="https://team3test99.s3.ap-northeast-2.amazonaws.com/styles/styles.css">
+</head>
+<body>
+    {% extends 'base.html' %}
+
+    {% block title %}Ticketing App{% endblock %}
+    
+    {% block content %}
+    <div class="container mx-auto">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-success">
+                    {{ messages[0] }}
+                </div>
+            {% endif %}
+        {% endwith %}        
+        <ul class="mt-4">
+    {% for ticket in tickets %}
+    <li class="p-3">
+        <img src="https://team3test99.s3.ap-northeast-2.amazonaws.com/images/{{ ticket.event }}.jpg" alt="{{ ticket.event }}">
+        <div class="ticket-info">
+            <strong>{{ ticket.event }}</strong><br>
+            {{ ticket.price }} 원
+        </div>
+        <div class="btn-container">
+            <a href="{{ url_for('buy', ticket_id=ticket.id) }}" class="btn btn-dark mt-3 buy-button" data-ticket-id="{{ ticket.id }}">지금 구매</a>
+        </div>
+    </li>
+    {% endfor %}
+    </div>
+
+    <!-- 부트스트랩 JS와 Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+    {% endblock %}
+</body>
+</html>

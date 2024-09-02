@@ -1,0 +1,12 @@
+aws eks update-kubeconfig --name '클러스터이름 기입' --region ap-northeaset-2
+kubectl edit configmap aws-auth -n kube-system
+
+'kind: ConfigMap' 윗줄에 아래 코드 추가
+
+rolearn: 'cloud9에 부여한 role arn' ex) arn:aws:iam::447079561480:role/eksworkspace-admin 
+username: testrole
+groups:
+- system:master
+
+
+이후 accessrule.yaml apply

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Tickets</title>
+    <!-- 부트스트랩 CDN -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- 사용자 정의 스타일 -->
+    <link rel="stylesheet" href="https://team3test99.s3.ap-northeast-2.amazonaws.com/styles/styles.css">
+</head>
+<body>
+    {% extends 'base.html' %}
+
+    {% block title %}Ticketing App{% endblock %}
+    
+    {% block content %}
+    <div class="container mx-auto">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    {% if category == 'danger' %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <h1 class="mt-4">Buy Ticket for {{ ticket.event }}</h1>
+        <div class="ticket-info">
+             <img src="https://team3test99.s3.ap-northeast-2.amazonaws.com/images/{{ ticket.event }}.jpg" alt="{{ ticket.event }}">
+            <p>가격: {{ ticket.price }} 원</p>
+            <p>남은 수량: {{ ticket.quantity }}</p>
+            <br> <!-- 공백 줄 추가 -->
+        </div>
+        <div class="buy-form">
+            <form method="post" action="">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    <label for="quantity">예매 수량</label>
+                    <input type="number" id="quantity" name="quantity" class="form-control" min="1" max="{{ ticket.quantity }}" required>
+                </div>
+                <button type="submit" class="btn btn-dark mt-3">예매하기</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 부트스트랩 JS와 Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    {% endblock %}
+</body>
+</html>

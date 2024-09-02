@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-flask-proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-flask-proxy
+  template:
+    metadata:
+      labels:
+        app: nginx-flask-proxy
+    spec:
+      containers:
+      - name: nginx-flask-proxy
+        image: 447079561480.dkr.ecr.ap-northeast-2.amazonaws.com/nginx-flask-proxy:latest
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 250m
+          limits:
+            cpu: 500m        

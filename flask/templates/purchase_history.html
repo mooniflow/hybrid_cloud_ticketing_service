@@ -1,0 +1,49 @@
+<!-- purchase_history.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase History - Ticketing App</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://team3test99.s3.ap-northeast-2.amazonaws.com/styles/styles.css">
+</head>
+<body>
+    {% extends 'base.html' %}
+
+    {% block title %}Ticketing App{% endblock %}
+    
+    {% block content %}
+    <div class="container mx-auto">
+        <h1 class="mt-4">구매 내역</h1>
+        <ul class="mt-4">
+             {% for event, price, tid, quan in purchases %}
+                {% if quan > 0 %} 
+                <li class="p-3">
+                     <img src="https://team3test99.s3.ap-northeast-2.amazonaws.com/images/{{ event }}.jpg" alt="{{ event }}">
+                    <div class="ticket-info">
+                        <strong>{{ event }}</strong><br>
+                        {{ price }} 원
+
+                            <p>구매 개수: {{ quan }}</p>
+                            <p>총 가격: {{ quan * price }} 원</p>
+                        <form method="POST" action="{{ url_for('cancel_reservation', ticket_id=tid) }}">
+                             {{ form.hidden_tag() }}
+                            <label for="cancel_quantity">취소할 개수:</label>
+                            <input type="number" name="cancel_quantity" id="cancel_quantity" min="1" max="{{ quan }}" required>
+                            <input type="submit" class="btn btn-danger" value="예매 취소">
+                        </form>    
+                    </div>
+                </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        <p class="mt-3"><a href="{{ url_for('index') }}">홈으로 돌아가기</a></p>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    {% endblock %}
+</body>
+</html>
